@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:13-alpine
+    container_name: social_systems_postgres
+    volumes:
+      - /var/lib/postgresql/data/
+    env_file:
+      - ./.env
+
+  web:
+    image: social_systems_image
+    container_name: social_systems
+    build: .
+    restart: always
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    env_file:
+      - ./.env
